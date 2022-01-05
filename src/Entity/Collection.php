@@ -22,6 +22,12 @@ class Collection
     #[ORM\Column(type: 'string', length: 500, nullable: true)]
     private $image;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private $User;
+
+    #[ORM\ManyToOne(targetEntity: Theme::class)]
+    private $Theme;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +65,30 @@ class Collection
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->Theme;
+    }
+
+    public function setTheme(?Theme $Theme): self
+    {
+        $this->Theme = $Theme;
 
         return $this;
     }

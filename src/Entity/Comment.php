@@ -19,6 +19,9 @@ class Comment
     #[ORM\Column(type: 'datetime_immutable')]
     private $create_at;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private $User;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Comment
     public function setCreateAt(\DateTimeImmutable $create_at): self
     {
         $this->create_at = $create_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

@@ -16,6 +16,10 @@ class Tags
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+    #[ORM\ManyToOne(targetEntity: Item::class)]
+    private $Item;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -29,6 +33,18 @@ class Tags
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->Item;
+    }
+
+    public function setItem(?Item $Item): self
+    {
+        $this->Item = $Item;
 
         return $this;
     }
