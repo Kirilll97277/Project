@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\main;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -28,12 +28,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            $user->setIsActive(true);
+            $user->setRoles((array)'ROLE_USER');
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('_wdt');
+            return $this->redirectToRoute('admin_user');
         }
 
         return $this->render('registration/register.html.twig', [
