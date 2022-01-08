@@ -2,7 +2,12 @@
 
 namespace App\Controller\Main;
 
+use App\Entity\Collection;
+use App\Entity\User;
+use App\Form\CollectionType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,9 +16,43 @@ class UserCollectionsController extends AbstractController
     #[Route('/main/user/collections', name: 'main_user_collections')]
     public function index(): Response
     {
+        $collection = $this->getDoctrine()->getRepository(Collection::class)->findAll();
 
-        return $this->render('main/user_collections/index.html.twig', [
-            'controller_name' => 'UserCollectionsController',
-        ]);
+        return $this->render('main/user_collections/index.html.twig', array(
+            'collections' => $collection,
+            'title' => 'Collection',
+            ));
+    }
+
+    #[Route('/main/user/my/collections', name: 'main_my_collections')]
+    public function showMyCollections(): Response
+    {
+        $user = $this->getUser();
+        $collection = $this->getDoctrine()->getRepository(Collection::class)->findBy(['User' => $user]);
+
+        return $this->render('main/my_collections/index.html.twig', array(
+            'collections' => $collection,
+            'title' => 'Collection',
+        ));
+    }
+
+    #[Route('/main/user/collections/create', name: 'main_user_collections_create')]
+    public function addCollection(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $collection = new Collection();
+        $form = $this->createForm(CollectionType::class, $collection);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $collection->setUser($this->getUser(User::class));
+            $entityManager->persist($collection);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('main_user_collections');
+        }
+        $forRender['title'] = 'Collection creation';
+        $forRender['collectionForm'] = $form->createView();
+
+        return $this->render('main/user_collections/form.html.twig', $forRender);
     }
 }

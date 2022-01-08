@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+
     {{ form_start(collectionForm) }}
     <div class="form-login">
         <div class="col-12">
@@ -8,8 +9,30 @@
             </h1>
             <div class="form-group">
                 <div class="col-sm-12">
-                    {{ form_widget(collectionForm.title, {'attr': {'class': 'form-control','placeholder ':'Enter tag'} }) }}
+                    {{ form_label(collectionForm.title) }}
+                    {{ form_widget(collectionForm.title) }}
                 </div>
                 <div class="col-sm-12">
-                    {{ form_widget(collectionForm.description, {'attr': {'class': 'form-control','placeholder ':'Enter tag'} }) }}
+                    {{ form_label(collectionForm.theme) }}
+                    {{ form_widget(collectionForm.theme) }}
                 </div>
+                <div class="col-sm-12">
+                    {{ form_label(collectionForm.description) }}
+                </div>
+                <div class="col-sm-12">
+                    {{ form_widget(collectionForm.description) }}
+                </div>
+                <div class="col-sm-12">
+                    {{ form_label(collectionForm.image) }}
+                    {{ form_widget(collectionForm.image) }}
+                </div>
+                <div class="col-sm-12">
+                    {{ form_widget(collectionForm.save) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(collectionForm) }}
+
+{% endblock %}

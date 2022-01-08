@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Collection;
+use App\Entity\Theme;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,24 +18,31 @@ class CollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('title', TextType::class, array(
+                'label' => 'Collection name',
+                'attr' => [
+                    'placeholder' => 'Enter the title'
+                ]
+            ))
+            ->add('theme', EntityType::class, array(
+                'label'=> 'Theme name',
+                'class'=> Theme::class,
+                'choice_label' => 'name',
+                'attr' =>[
+                    'placeholder'
+                ]
+            ))
+            ->add('description', TextareaType::class, array(
+                'label' => 'Collection description',
+                'attr' => [
+                    'placeholder' => 'Select a theme'
+                ]
+            ))
             ->add('image', FileType::class, array(
                 'label' => 'Main image',
                 'required' => false,
                 'mapped' => false,
             ))
-            ->add('title', TextType::class, array(
-                'label' => 'Сollection name',
-                'attr' => [
-                    'placeholder' => 'Enter the title'
-                ]
-            ))
-            ->add('description', TextareaType::class, array(
-                'label' => 'Сollection description',
-                'attr' => [
-                    'placeholder' => 'Enter a description'
-                ]
-            ))
-            ->add('Theme')
             ->add('save', SubmitType::class, array(
                 'label' => 'Save'
             ))
