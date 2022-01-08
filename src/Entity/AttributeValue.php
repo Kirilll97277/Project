@@ -13,41 +13,43 @@ class AttributeValue
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private $value;
+    #[ORM\Column(type: 'boolean')]
+    private $isActive;
 
-    #[ORM\ManyToOne(targetEntity: AttributeType::class)]
-    private $attributeType;
+    #[ORM\Column(type: 'integer')]
+    private $DisplayOrder;
 
     #[ORM\ManyToOne(targetEntity: Item::class)]
-    #[ORM\JoinColumn(nullable: false)]
     private $Item;
+
+    #[ORM\Column(type: 'text')]
+    private $value;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getValue(): ?string
+    public function getIsActive(): ?bool
     {
-        return $this->value;
+        return $this->isActive;
     }
 
-    public function setValue(string $value): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->value = $value;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function getAttributeType(): ?AttributeType
+    public function getDisplayOrder(): ?int
     {
-        return $this->attributeType;
+        return $this->DisplayOrder;
     }
 
-    public function setAttributeType(?AttributeType $attributeType): self
+    public function setDisplayOrder(int $DisplayOrder): self
     {
-        $this->attributeType = $attributeType;
+        $this->DisplayOrder = $DisplayOrder;
 
         return $this;
     }
@@ -60,6 +62,18 @@ class AttributeValue
     public function setItem(?Item $Item): self
     {
         $this->Item = $Item;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): self
+    {
+        $this->value = $value;
 
         return $this;
     }

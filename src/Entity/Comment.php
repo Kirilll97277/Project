@@ -22,6 +22,10 @@ class Comment
     #[ORM\ManyToOne(targetEntity: User::class)]
     private $User;
 
+    #[ORM\ManyToOne(targetEntity: Item::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $Item;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Comment
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->Item;
+    }
+
+    public function setItem(?Item $Item): self
+    {
+        $this->Item = $Item;
 
         return $this;
     }
