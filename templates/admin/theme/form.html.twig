@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+    {{ form_start(addthemeForm) }}
+    <div class="form-login">
+        <div class="col-12">
+            <h1>
+                {{ title }}
+            </h1>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    {{ form_widget(addthemeForm.name, {'attr': {'class': 'form-control','placeholder ':'Enter tag'} }) }}
+                </div>
+                <div class="col-sm-12 mt-2">
+                    {{ form_label(addthemeForm.add_theme) }}
+                    {{ form_widget(addthemeForm.add_theme, { 'attr': {'class': 'w-100 btn btn-lg btn-primary'} }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(addthemeForm) }}
+
+{% endblock %}

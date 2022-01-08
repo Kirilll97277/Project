@@ -7,3 +7,9 @@
 .form-check-inline{
     margin-left: auto;
 }
+td,th {
+    border: 1px black solid;
+}
+tr td:first-child {
+    width: 15%;
+}

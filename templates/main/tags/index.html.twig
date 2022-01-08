@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="container">
+<table>
+<div class="example-wrapper">
+    <tr>
+    <h1>Tags</h1>
+    </tr>
+    {% for tag in tags %}
+    <tr>
+        <td>{{ tag.name }}</td>
+    </tr>
+    {% endfor %}
+
+</div>
+</table>
+    <a href="{{ path('main_add_tags') }}" class="nav-link">add tag</a>
+</div>
+{% endblock %}
