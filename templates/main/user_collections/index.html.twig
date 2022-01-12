@@ -14,8 +14,8 @@
     }
 </style>
     <div class="container">
-        {% for collection in collections %}
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        {% for collection in collections %}
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="card-header py-3">
@@ -30,9 +30,15 @@
                     </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
+        </div>
     </div>
 
-</div>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+    </script>
+
+    <script>
 {% endblock %}

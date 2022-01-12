@@ -20,15 +20,16 @@ class Item
     #[ORM\ManyToOne(targetEntity: Collection::class)]
     private $Collection;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: tags::class)]
-    private $Tags;
+//    #[ORM\OneToMany(mappedBy: 'item', targetEntity: tags::class)]
+//    private $Tags;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    private $like_Item;
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private $Item_like;
 
     public function __construct()
     {
         $this->Tags = new ArrayCollection();
+        $this->Item_like = new ArrayCollection();
     }
 
 
@@ -61,16 +62,27 @@ class Item
         return $this;
     }
 
-    public function getLikeItem(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getItemLike(): Collection
     {
-        return $this->like_Item;
+        return $this->Item_like;
     }
 
-    public function setLikeItem(?User $like_Item): self
+    public function addItemLike(User $itemLike): self
     {
-        $this->like_Item = $like_Item;
+        if (!$this->Item_like->contains($itemLike)) {
+            $this->Item_like[] = $itemLike;
+        }
 
         return $this;
     }
 
+    public function removeItemLike(User $itemLike): self
+    {
+        $this->Item_like->removeElement($itemLike);
+
+        return $this;
+    }
 }
