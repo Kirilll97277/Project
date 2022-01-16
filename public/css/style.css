@@ -1,3 +1,9 @@
+table th {
+    border: 1px black solid;
+}
+table tr td {
+    border: 1px black solid;
+}
 .form-login{
     padding: 3px;
     width: 25%;
@@ -6,4 +12,18 @@
 }
 .form-check-inline{
     margin-left: auto;
+}
+.example-wrapper {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 95%;
+    font: 18px/1.5 sans-serif;
+}
+.example-wrapper code {
+    background: #F5F5F5;
+    padding: 2px 6px;
+}
+
+tr td:first-child {
+    width: 10%;
 }

@@ -3,7 +3,6 @@
 namespace App\Controller\Main;
 
 use App\Entity\Collection;
-use App\Entity\User;
 use App\Form\CollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +43,7 @@ class UserCollectionsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $collection->setUser($this->getUser(User::class));
+            $collection->setUser($this->getUser());
             $entityManager->persist($collection);
             $entityManager->flush();
 
@@ -53,6 +52,6 @@ class UserCollectionsController extends AbstractController
         $forRender['title'] = 'Collection creation';
         $forRender['collectionForm'] = $form->createView();
 
-        return $this->render('main/user_collections/form.html.twig', $forRender);
+        return $this->render('main/my_collections/form.html.twig', $forRender);
     }
 }

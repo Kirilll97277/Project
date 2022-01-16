@@ -17,19 +17,23 @@ class Item
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    #[ORM\ManyToOne(targetEntity: Collection::class)]
-    private $Collection;
-
-//    #[ORM\OneToMany(mappedBy: 'item', targetEntity: tags::class)]
-//    private $Tags;
-
     #[ORM\ManyToMany(targetEntity: User::class)]
     private $Item_like;
 
+    #[ORM\ManyToOne(targetEntity: Collection::class)]
+    private $Collection;
+
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items')]
+    private $Tags;
+
+    #[ORM\Column(type: 'datetime')]
+    private $create_date;
+
+
     public function __construct()
     {
-        $this->Tags = new ArrayCollection();
         $this->Item_like = new ArrayCollection();
+        $this->Tags = new ArrayCollection();
     }
 
 
@@ -50,22 +54,11 @@ class Item
         return $this;
     }
 
-    public function getCollection(): ?Collection
-    {
-        return $this->Collection;
-    }
-
-    public function setCollection(?Collection $Collection): self
-    {
-        $this->Collection = $Collection;
-
-        return $this;
-    }
 
     /**
-     * @return Collection|User[]
+     * @return ArrayCollection
      */
-    public function getItemLike(): Collection
+    public function getItemLike(): ArrayCollection
     {
         return $this->Item_like;
     }
@@ -85,4 +78,53 @@ class Item
 
         return $this;
     }
+
+    public function getCollection(): ?Collection
+    {
+        return $this->Collection;
+    }
+
+    public function setCollection(?Collection $Collection): self
+    {
+        $this->Collection = $Collection;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTags(): ArrayCollection
+    {
+        return $this->Tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->Tags->contains($tag)) {
+            $this->Tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        $this->Tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getCreateDate(): string
+    {
+        return $this->create_date;
+    }
+
+    public function setCreateDate(string $create_date): self
+    {
+        $this->create_date = $create_date;
+
+        return $this;
+    }
+
 }

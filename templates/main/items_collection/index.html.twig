@@ -9,12 +9,22 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello</h1>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+{#            {% if (is_granted('ROLE_ADMIN') ||   ) %}#}
+            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_user_item_create') }}">Add Item</a>
+{#            {% endif %}#}
+            {% for item in items %}
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">{{ item.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/kirill/Project/src/Controller/Main/ItemsCollectionController.php'|file_link(0) }}">src/Controller/Main/ItemCollectionController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/kirill/Project/templates/main/items_collection/index.html.twig'|file_link(0) }}">templates/main/item_collection/index.html.twig</a></code></li>
-    </ul>
 </div>
 {% endblock %}

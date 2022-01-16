@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TagsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagsRepository::class)]
@@ -16,9 +18,13 @@ class Tags
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\ManyToOne(targetEntity: Item::class)]
-    private $Item;
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'Tags')]
+    private $items;
 
+    public function __construct()
+    {
+        $this->items = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -37,15 +43,31 @@ class Tags
         return $this;
     }
 
-    public function getItem(): ?Item
+    /**
+     * @return Collection|Item[]
+     */
+    public function getItems(): Collection
     {
-        return $this->Item;
+        return $this->items;
     }
 
-    public function setItem(?Item $Item): self
+    public function addItem(Item $item): self
     {
-        $this->Item = $Item;
+        if (!$this->items->contains($item)) {
+            $this->items[] = $item;
+            $item->addTag($this);
+        }
 
         return $this;
     }
+
+    public function removeItem(Item $item): self
+    {
+        if ($this->items->removeElement($item)) {
+            $item->removeTag($this);
+        }
+
+        return $this;
+    }
+
 }

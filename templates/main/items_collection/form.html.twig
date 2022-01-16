@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {{ form_start(itemForm) }}
+
+        <div class="form-login">
+            <div class="col-12">
+                <h1>
+                    {{ title }}
+                </h1>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    {{ form_label(itemForm.title) }}
+                    {{ form_widget(itemForm.title) }}
+                </div>
+{#                <div class="col-sm-12">#}
+{#                    {{ form_label(itemForm.tag) }}#}
+{#                    {{ form_widget(itemForm.tag) }}#}
+{#                </div>#}
+                <div class="col-sm-12">
+                    {{ form_widget(itemForm.save) }}
+                </div>
+            </div>
+        </div>
+
+    {{ form_end(itemForm) }}
+
+{% endblock %}
