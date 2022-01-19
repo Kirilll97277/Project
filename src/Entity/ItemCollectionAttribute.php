@@ -2,41 +2,42 @@
 
 namespace App\Entity;
 
-use App\Repository\AttributeRepository;
+use App\Repository\ItemCollectionAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AttributeRepository::class)]
-class Attribute
+#[ORM\Entity(repositoryClass: ItemCollectionAttributeRepository::class)]
+class ItemCollectionAttribute
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $Name;
+    #[ORM\Column(type: 'boolean')]
+    private $isActive;
 
     #[ORM\ManyToOne(targetEntity: AttributeType::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $AttributeType;
 
-    #[ORM\ManyToOne(targetEntity: AttributeValue::class)]
+    #[ORM\ManyToOne(targetEntity: Collection::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $AttributeValue;
+    private $Collection;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getIsActive(): ?bool
     {
-        return $this->Name;
+        return $this->isActive;
     }
 
-    public function setName(string $Name): self
+    public function setIsActive(bool $isActive): self
     {
-        $this->Name = $Name;
+        $this->isActive = $isActive;
 
         return $this;
     }
@@ -53,14 +54,14 @@ class Attribute
         return $this;
     }
 
-    public function getAttributeValue(): ?AttributeValue
+    public function getCollection(): ?Collection
     {
-        return $this->AttributeValue;
+        return $this->Collection;
     }
 
-    public function setAttributeValue(?AttributeValue $AttributeValue): self
+    public function setCollection(?Collection $Collection): self
     {
-        $this->AttributeValue = $AttributeValue;
+        $this->Collection = $Collection;
 
         return $this;
     }

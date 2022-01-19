@@ -20,9 +20,6 @@ class Item
     #[ORM\ManyToMany(targetEntity: User::class)]
     private $Item_like;
 
-    #[ORM\ManyToOne(targetEntity: Collection::class)]
-    private $Collection;
-
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items')]
     private $Tags;
 

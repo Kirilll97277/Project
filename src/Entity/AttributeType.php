@@ -13,7 +13,7 @@ class AttributeType
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     public function getId(): ?int
@@ -26,7 +26,7 @@ class AttributeType
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

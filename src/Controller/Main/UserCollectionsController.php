@@ -3,6 +3,7 @@
 namespace App\Controller\Main;
 
 use App\Entity\Collection;
+use App\Services\FileUploader;
 use App\Form\CollectionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,13 +37,17 @@ class UserCollectionsController extends AbstractController
     }
 
     #[Route('/main/user/collections/create', name: 'main_user_collections_create')]
-    public function addCollection(Request $request, EntityManagerInterface $entityManager): Response
+    public function addCollection(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $collection = new Collection();
         $form = $this->createForm(CollectionType::class, $collection);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $image = $form->get('image')->getData();
+            if($image){
+
+            }
             $collection->setUser($this->getUser());
             $entityManager->persist($collection);
             $entityManager->flush();

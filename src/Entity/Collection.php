@@ -28,6 +28,7 @@ class Collection
     #[ORM\ManyToOne(targetEntity: Theme::class)]
     private $Theme;
 
+
     public function getId(): ?int
     {
         return $this->id;
