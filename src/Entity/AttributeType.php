@@ -16,6 +16,7 @@ class AttributeType
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -32,4 +33,5 @@ class AttributeType
 
         return $this;
     }
+
 }

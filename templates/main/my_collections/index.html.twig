@@ -5,9 +5,10 @@
 {% block body %}
 
     <div class="container">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('main_user_collections_create') }}">Add Collection</a>
+        </div>
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_user_collections_create') }}">Add Collection</a>
-
             {% for collection in collections %}
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">

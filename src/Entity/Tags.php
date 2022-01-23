@@ -44,7 +44,7 @@ class Tags
     }
 
     /**
-     * @return Collection|Item[]
+     * @return Collections|Item[]
      */
     public function getItems(): Collection
     {

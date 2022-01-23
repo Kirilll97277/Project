@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
@@ -18,19 +19,27 @@ class Item
     private $title;
 
     #[ORM\ManyToMany(targetEntity: User::class)]
-    private $Item_like;
+    private $likes;
 
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items')]
-    private $Tags;
+    private $tags;
 
     #[ORM\Column(type: 'datetime')]
-    private $create_date;
+    private $createDate;
+
+    #[ORM\OneToMany(mappedBy: 'itemId', targetEntity: ItemAttribute::class, orphanRemoval: true)]
+    private $itemAttributes;
+
+    #[ORM\ManyToOne(targetEntity: Collections::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $collectionId;
 
 
     public function __construct()
     {
-        $this->Item_like = new ArrayCollection();
-        $this->Tags = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->itemAttributes = new ArrayCollection();
     }
 
 
@@ -55,15 +64,15 @@ class Item
     /**
      * @return ArrayCollection
      */
-    public function getItemLike(): ArrayCollection
+    public function getLikes(): ArrayCollection
     {
-        return $this->Item_like;
+        return $this->likes;
     }
 
     public function addItemLike(User $itemLike): self
     {
-        if (!$this->Item_like->contains($itemLike)) {
-            $this->Item_like[] = $itemLike;
+        if (!$this->likes->contains($itemLike)) {
+            $this->likes[] = $itemLike;
         }
 
         return $this;
@@ -71,17 +80,17 @@ class Item
 
     public function removeItemLike(User $itemLike): self
     {
-        $this->Item_like->removeElement($itemLike);
+        $this->likes->removeElement($itemLike);
 
         return $this;
     }
 
-    public function getCollection(): ?Collection
+    public function getCollection(): ?Collections
     {
         return $this->Collection;
     }
 
-    public function setCollection(?Collection $Collection): self
+    public function setCollection(?Collections $Collection): self
     {
         $this->Collection = $Collection;
 
@@ -93,13 +102,13 @@ class Item
      */
     public function getTags(): ArrayCollection
     {
-        return $this->Tags;
+        return $this->tags;
     }
 
     public function addTag(Tags $tag): self
     {
-        if (!$this->Tags->contains($tag)) {
-            $this->Tags[] = $tag;
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
         }
 
         return $this;
@@ -107,19 +116,61 @@ class Item
 
     public function removeTag(Tags $tag): self
     {
-        $this->Tags->removeElement($tag);
+        $this->tags->removeElement($tag);
 
         return $this;
     }
 
-    public function getCreateDate(): string
+    public function getCreateDate(): \DateTimeInterface
     {
-        return $this->create_date;
+        return $this->createDate;
     }
 
-    public function setCreateDate(string $create_date): self
+    public function setCreateDate(\DateTimeInterface $createDate): self
     {
-        $this->create_date = $create_date;
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ItemAttribute[]
+     */
+    public function getItemAttributes(): Collection
+    {
+        return $this->itemAttributes;
+    }
+
+    public function addItemAttribute(ItemAttribute $itemAttribute): self
+    {
+        if (!$this->itemAttributes->contains($itemAttribute)) {
+            $this->itemAttributes[] = $itemAttribute;
+            $itemAttribute->setItemId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemAttribute(ItemAttribute $itemAttribute): self
+    {
+        if ($this->itemAttributes->removeElement($itemAttribute)) {
+            // set the owning side to null (unless already changed)
+            if ($itemAttribute->getItemId() === $this) {
+                $itemAttribute->setItemId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCollectionId(): ?Collections
+    {
+        return $this->collectionId;
+    }
+
+    public function setCollectionId(?Collections $collectionId): self
+    {
+        $this->collectionId = $collectionId;
 
         return $this;
     }

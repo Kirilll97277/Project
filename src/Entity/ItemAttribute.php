@@ -13,55 +13,41 @@ class ItemAttribute
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $value;
-
-    #[ORM\ManyToOne(targetEntity: Item::class)]
+    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'itemAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $Item;
+    private $itemId;
 
-    #[ORM\ManyToOne(targetEntity: ItemCollectionAttribute::class)]
+    #[ORM\ManyToOne(targetEntity: ItemCollectionAttribute::class, inversedBy: 'itemAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $ItemCollectionAttribute;
+    private $itemCollectionAttributeId;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getValue(): ?int
+    public function getItemId(): ?Item
     {
-        return $this->value;
+        return $this->itemId;
     }
 
-    public function setValue(int $value): self
+    public function setItemId(?Item $itemId): self
     {
-        $this->value = $value;
+        $this->itemId = $itemId;
 
         return $this;
     }
 
-    public function getItem(): ?Item
+    public function getItemCollectionAttributeId(): ?ItemCollectionAttribute
     {
-        return $this->Item;
+        return $this->itemCollectionAttributeId;
     }
 
-    public function setItem(?Item $Item): self
+    public function setItemCollectionAttributeId(?ItemCollectionAttribute $itemCollectionAttributeId): self
     {
-        $this->Item = $Item;
+        $this->itemCollectionAttributeId = $itemCollectionAttributeId;
 
         return $this;
     }
 
-    public function getItemCollectionAttribute(): ?ItemCollectionAttribute
-    {
-        return $this->ItemCollectionAttribute;
-    }
-
-    public function setItemCollectionAttribute(?ItemCollectionAttribute $ItemCollectionAttribute): self
-    {
-        $this->ItemCollectionAttribute = $ItemCollectionAttribute;
-
-        return $this;
-    }
 }

@@ -3,24 +3,19 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
     <div class="container">
-        <table>
-            <div class="example-wrapper">
-                <tr>
-                    <h1>Theme</h1>
-                </tr>
+        <div class="example-wrapper w-25">
+            <h1>Theme</h1>
+            <a href="{{ path('admin_add_theme') }}" class="btn btn-outline-primary mb-2">add theme</a>
+            <ol class="list-group list-group-numbered">
                 {% for theme in themes %}
-                    <tr>
-                        <td>{{ theme.name }}</td>
-                    </tr>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ theme.name }}</div>
+                    </div>
+                </li>
                 {% endfor %}
-
-            </div>
-        </table>
-        <a href="{{ path('admin_add_theme') }}" class="nav-link">add theme</a>
+            </ol>
+        </div>
     </div>
 {% endblock %}

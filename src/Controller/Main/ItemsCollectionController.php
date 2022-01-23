@@ -2,9 +2,10 @@
 
 namespace App\Controller\Main;
 
-use App\Entity\Collection;
+use App\Entity\Collections;
 use App\Entity\Item;
 //use phpDocumentor\Reflection\DocBlock\Tags\Method;
+use App\Entity\ItemCollectionAttribute;
 use App\Form\ItemType;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
@@ -18,7 +19,7 @@ class ItemsCollectionController extends AbstractController
     #[Route('/main/collection/{id}', name: 'main_items_collection', requirements: ['id' => '\d+'])]
     public function index(int $id): Response
     {
-        $item = $this->getDoctrine()->getRepository(Item::class)->findBy(['Collection' => $id]);
+        $item = $this->getDoctrine()->getRepository(Item::class)->findBy(['collectionId'=>$id]);
 
         return $this->render('main/items_collection/index.html.twig',  array(
             'items' => $item,
@@ -34,8 +35,7 @@ class ItemsCollectionController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $item->setCreateDate(date());
-            $item->setCollection();
+            $item->setCreateDate(new \DateTime());
             $entityManager->persist($item);
             $entityManager->flush();
 

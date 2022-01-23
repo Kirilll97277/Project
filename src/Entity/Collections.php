@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CollectionRepository;
+use App\Repository\CollectionsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CollectionRepository::class)]
-class Collection
+#[ORM\Entity(repositoryClass: CollectionsRepository::class)]
+class Collections
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,6 +30,13 @@ class Collection
     #[ORM\ManyToOne(targetEntity: Theme::class)]
     private $Theme;
 
+    #[ORM\OneToMany(mappedBy: 'collectionId', targetEntity: ItemCollectionAttribute::class, orphanRemoval: true, cascade:['persist'])]
+    private $itemCollectionAttributes;
+
+    public function __construct()
+    {
+        $this->itemCollectionAttributes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,4 +102,35 @@ class Collection
 
         return $this;
     }
+
+    /**
+     * @return Collection|ItemCollectionAttribute[]
+     */
+    public function getItemCollectionAttributes(): Collection
+    {
+        return $this->itemCollectionAttributes;
+    }
+
+    public function addItemCollectionAttribute(ItemCollectionAttribute $itemCollectionAttribute): self
+    {
+        if (!$this->itemCollectionAttributes->contains($itemCollectionAttribute)) {
+            $this->itemCollectionAttributes[] = $itemCollectionAttribute;
+            $itemCollectionAttribute->setCollectionId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemCollectionAttribute(ItemCollectionAttribute $itemCollectionAttribute): self
+    {
+        if ($this->itemCollectionAttributes->removeElement($itemCollectionAttribute)) {
+            // set the owning side to null (unless already changed)
+            if ($itemCollectionAttribute->getCollectionId() === $this) {
+                $itemCollectionAttribute->setCollectionId(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

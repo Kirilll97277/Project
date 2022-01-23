@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Collections;
 use App\Entity\Theme;
 use App\Form\ThemeType;
 use Doctrine\ORM\EntityManagerInterface;

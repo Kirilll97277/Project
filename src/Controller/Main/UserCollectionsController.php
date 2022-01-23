@@ -2,9 +2,11 @@
 
 namespace App\Controller\Main;
 
-use App\Entity\Collection;
+use App\Entity\AttributeType;
+use App\Entity\Collections;
+use App\Entity\ItemCollectionAttribute;
 use App\Services\FileUploader;
-use App\Form\CollectionType;
+use App\Form\CollectionsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,11 +18,11 @@ class UserCollectionsController extends AbstractController
     #[Route('/main/user/collections', name: 'main_user_collections')]
     public function index(): Response
     {
-        $collection = $this->getDoctrine()->getRepository(Collection::class)->findAll();
+        $collection = $this->getDoctrine()->getRepository(Collections::class)->findAll();
 
         return $this->render('main/user_collections/index.html.twig', array(
             'collections' => $collection,
-            'title' => 'Collection',
+            'title' => 'Collections',
             ));
     }
 
@@ -28,35 +30,35 @@ class UserCollectionsController extends AbstractController
     public function showMyCollections(): Response
     {
         $user = $this->getUser();
-        $collection = $this->getDoctrine()->getRepository(Collection::class)->findBy(['User' => $user]);
+        $collection = $this->getDoctrine()->getRepository(Collections::class)->findBy(['User' => $user]);
 
         return $this->render('main/my_collections/index.html.twig', array(
             'collections' => $collection,
-            'title' => 'Collection',
+            'title' => 'Collections',
         ));
     }
 
     #[Route('/main/user/collections/create', name: 'main_user_collections_create')]
-    public function addCollection(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function addCollection(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $collection = new Collection();
-        $form = $this->createForm(CollectionType::class, $collection);
+        $collection = new Collections();
+
+        $form = $this->createForm(CollectionsType::class, $collection);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $image = $form->get('image')->getData();
-            if($image){
-
-            }
             $collection->setUser($this->getUser());
             $entityManager->persist($collection);
             $entityManager->flush();
 
             return $this->redirectToRoute('main_user_collections');
         }
-        $forRender['title'] = 'Collection creation';
+        $forRender['title'] = 'Collections creation';
         $forRender['collectionForm'] = $form->createView();
 
         return $this->render('main/my_collections/form.html.twig', $forRender);
     }
+
+
 }

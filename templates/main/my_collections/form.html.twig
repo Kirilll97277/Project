@@ -2,37 +2,72 @@
 {% block body %}
 
     {{ form_start(collectionForm) }}
+
     <div class="form-login">
         <div class="col-12">
-            <h1>
-                {{ title }}
-            </h1>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    {{ form_label(collectionForm.title) }}
-                    {{ form_widget(collectionForm.title) }}
-                </div>
-                <div class="col-sm-12">
-                    {{ form_label(collectionForm.theme) }}
-                    {{ form_widget(collectionForm.theme) }}
-                </div>
-                <div class="col-sm-12">
-                    {{ form_label(collectionForm.description) }}
-                </div>
-                <div class="col-sm-12">
-                    {{ form_widget(collectionForm.description) }}
-                </div>
-                <div class="col-sm-12">
-                    {{ form_label(collectionForm.image) }}
-                    {{ form_widget(collectionForm.image) }}
-                </div>
-                <div class="col-sm-12">
-                    {{ form_widget(collectionForm.save) }}
-                </div>
+            <h1 class="h3 mb-3 font-weight-normal">{{ title }}</h1>
+            <div class="col-sm-12">
+                {{ form_label(collectionForm.title) }}
+                {{ form_widget(collectionForm.title, {'attr': {'class': 'form-control','placeholder ':'Enter Collections title'} }) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_label(collectionForm.theme) }}
+                {{ form_widget(collectionForm.theme, { 'attr': {'class':'form-select'}}) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_label(collectionForm.image) }}
+                {{ form_widget(collectionForm.image, { 'attr': {'class':'form-control'}}) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_label(collectionForm.description) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_widget(collectionForm.description, { 'attr': {'class':'form-control'}}) }}
+            </div>
+            <div class="col-sm-12">
+                {{ form_label(collectionForm.itemCollectionAttributes) }}
+                <ul class="tags"
+                    data-index="{{ collectionForm.itemCollectionAttributes|length > 0 ? collectionForm.itemCollectionAttributes|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(collectionForm.itemCollectionAttributes.vars.prototype)|e('html_attr') }}"
+                ></ul>
+                {{ form_widget(collectionForm.itemCollectionAttributes) }}
+            <button type="button" class="add_item_link btn btn-outline-primary mt-2" data-collection-holder-class="tags">Add attribute to item</button>
+            </div>
+            <div class="col-sm-12">
+                {{ form_widget(collectionForm.save, { 'attr': {'class':'btn btn-outline-primary mt-2    '} }) }}
             </div>
         </div>
     </div>
-
     {{ form_end(collectionForm) }}
+    <script>
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('li');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+        };
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+
+    </script>
+
+
+
+
+
 
 {% endblock %}
