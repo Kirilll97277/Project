@@ -24,22 +24,24 @@ class ItemsCollectionController extends AbstractController
         return $this->render('main/items_collection/index.html.twig',  array(
             'items' => $item,
             'title' => 'Items',
+            'id' =>$id,
         ));
     }
 
-    #[Route('/main/user/collection/item/create/', name: 'main_user_item_create')]
-    public function addCollection(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/main/user/collection/{id}/item/create/', name: 'main_user_item_create', requirements: ['id' => '\d+'])]
+    public function addCollection(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
         $item = new Item();
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $item->setCollectionId($this->getDoctrine()->getRepository(Collections::class)->find(['id' => $id]));
             $item->setCreateDate(new \DateTime());
             $entityManager->persist($item);
             $entityManager->flush();
 
-            return $this->redirectToRoute('main_items_collection', array('id' => $item->getCollection()));
+            return $this->redirectToRoute('main_items_collection', array('id' => $id));
         }
         $forRender['title'] = 'Item creation';
         $forRender['itemForm'] = $form->createView();

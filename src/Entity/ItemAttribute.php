@@ -13,10 +13,6 @@ class ItemAttribute
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'itemAttributes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $itemId;
-
     #[ORM\ManyToOne(targetEntity: ItemCollectionAttribute::class, inversedBy: 'itemAttributes')]
     #[ORM\JoinColumn(nullable: false)]
     private $itemCollectionAttributeId;

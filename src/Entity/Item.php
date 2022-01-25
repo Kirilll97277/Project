@@ -21,14 +21,11 @@ class Item
     #[ORM\ManyToMany(targetEntity: User::class)]
     private $likes;
 
-    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items')]
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items', cascade:['persist'])]
     private $tags;
 
     #[ORM\Column(type: 'datetime')]
     private $createDate;
-
-    #[ORM\OneToMany(mappedBy: 'itemId', targetEntity: ItemAttribute::class, orphanRemoval: true)]
-    private $itemAttributes;
 
     #[ORM\ManyToOne(targetEntity: Collections::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -81,18 +78,6 @@ class Item
     public function removeItemLike(User $itemLike): self
     {
         $this->likes->removeElement($itemLike);
-
-        return $this;
-    }
-
-    public function getCollection(): ?Collections
-    {
-        return $this->Collection;
-    }
-
-    public function setCollection(?Collections $Collection): self
-    {
-        $this->Collection = $Collection;
 
         return $this;
     }

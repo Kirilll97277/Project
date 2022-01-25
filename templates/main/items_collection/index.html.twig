@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 {#            {% if (is_granted('ROLE_ADMIN') ||   ) %}#}
-            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_user_item_create') }}">Add Item</a>
+            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_user_item_create', {'id': id }) }}">Add Item</a>
 {#            {% endif %}#}
             {% for item in items %}
                 <div class="col">
@@ -21,6 +21,7 @@
                             <h4 class="my-0 fw-normal">{{ item.title }}</h4>
                         </div>
                     </div>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('item', {'id': item.id}) }}">Look</a>
                 </div>
             {% endfor %}
         </div>
