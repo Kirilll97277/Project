@@ -13,18 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ItemController extends AbstractController
 {
-    #[Route('/item{id}', name: 'item', requirements: ['id' => '\d+'])]
+    #[Route('/item/{id}', name: 'item', requirements: ['id' => '\d+'])]
     public function index(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
-        $item = $this->getDoctrine()->getRepository(Item::class)->findBy(['id'=>$id]);
+        $item = $this->getDoctrine()->getRepository(Item::class)->findOneBy(['id'=>$id]);
         $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(['Item'=>$id]);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $comment->setItem($this->getDoctrine()->getRepository(Item::class)->findOneBy(['id'=>$id]));
+            $comment->setItem($item);
             $comment->setCreateAt(new \DateTime());
             $comment->setUser($this->getUser());
             $entityManager->persist($comment);
@@ -34,7 +34,7 @@ class ItemController extends AbstractController
         }
 
         $forRender['itemForm'] = $form->createView();
-        $forRender['items'] = $item;
+        $forRender['item'] = $item;
         $forRender['comments'] = $comments;
         $forRender['id'] = $id;
 

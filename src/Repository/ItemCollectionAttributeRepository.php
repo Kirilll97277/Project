@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\ItemCollectionAttribute;
+use App\Entity\CollectionAttribute;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ItemCollectionAttribute|null find($id, $lockMode = null, $lockVersion = null)
- * @method ItemCollectionAttribute|null findOneBy(array $criteria, array $orderBy = null)
- * @method ItemCollectionAttribute[]    findAll()
- * @method ItemCollectionAttribute[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CollectionAttribute|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CollectionAttribute|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CollectionAttribute[]    findAll()
+ * @method CollectionAttribute[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ItemCollectionAttributeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ItemCollectionAttribute::class);
+        parent::__construct($registry, CollectionAttribute::class);
     }
 
     // /**

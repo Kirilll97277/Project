@@ -26,6 +26,10 @@ class ItemType extends AbstractType
             ->add('save', SubmitType::class, array(
                 'label' => 'Save'
             ))
+            ->add('attributes', CollectionType::class, [
+                'entry_type' => ItemCollectionAttributeType::class,
+                'label' => false,
+            ])
         ;
     }
 

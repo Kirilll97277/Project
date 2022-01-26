@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TagsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TagsRepository::class)]
@@ -44,9 +44,9 @@ class Tags
     }
 
     /**
-     * @return Collections|Item[]
+     * @return DoctrineCollection|Item[]
      */
-    public function getItems(): Collection
+    public function getItems(): DoctrineCollection
     {
         return $this->items;
     }

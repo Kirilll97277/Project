@@ -4,29 +4,26 @@ namespace App\Entity;
 
 use App\Repository\ItemCollectionAttributeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-//use Doctrine\Common\Collections\Collections;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemCollectionAttributeRepository::class)]
-class ItemCollectionAttribute
+class CollectionAttribute
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-
     #[ORM\ManyToOne(targetEntity: AttributeType::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $attributeTypeId;
+    private ?AttributeType $attributeType;
 
-    #[ORM\OneToMany(mappedBy: 'itemCollectionAttributeId', targetEntity: ItemAttribute::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'itemCollectionAttribute', targetEntity: ItemAttribute::class, orphanRemoval: true)]
     private $itemAttributes;
 
-    #[ORM\ManyToOne(targetEntity: Collections::class, inversedBy: 'itemCollectionAttributes')]
+    #[ORM\ManyToOne(targetEntity: Collection::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $collectionId;
+    private ?Collection $collection;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
@@ -41,24 +38,19 @@ class ItemCollectionAttribute
         return $this->id;
     }
 
-
-
-    public function getAttributeTypeId(): ?AttributeType
+    public function getAttributeType(): ?AttributeType
     {
-        return $this->attributeTypeId;
+        return $this->attributeType;
     }
 
-    public function setAttributeTypeId(?AttributeType $attributeTypeId): self
+    public function setAttributeType(?AttributeType $attributeType): self
     {
-        $this->attributeTypeId = $attributeTypeId;
+        $this->attributeType = $attributeType;
 
         return $this;
     }
 
-    /**
-     * @return Collection|ItemAttribute[]
-     */
-    public function getItemAttributes(): Collection
+    public function getItemAttributes(): ?ArrayCollection
     {
         return $this->itemAttributes;
     }
@@ -67,7 +59,7 @@ class ItemCollectionAttribute
     {
         if (!$this->itemAttributes->contains($itemAttribute)) {
             $this->itemAttributes[] = $itemAttribute;
-            $itemAttribute->setItemCollectionAttributeId($this);
+            $itemAttribute->setCollectionAttribute($this);
         }
 
         return $this;
@@ -77,22 +69,22 @@ class ItemCollectionAttribute
     {
         if ($this->itemAttributes->removeElement($itemAttribute)) {
             // set the owning side to null (unless already changed)
-            if ($itemAttribute->getItemCollectionAttributeId() === $this) {
-                $itemAttribute->setItemCollectionAttributeId(null);
+            if ($itemAttribute->getCollectionAttribute() === $this) {
+                $itemAttribute->setCollectionAttribute(null);
             }
         }
 
         return $this;
     }
 
-    public function getCollectionId(): ?Collections
+    public function getCollection(): ?Collection
     {
-        return $this->collectionId;
+        return $this->collection;
     }
 
-    public function setCollectionId(?Collections $collectionId): self
+    public function setCollection(?Collection $collection): self
     {
-        $this->collectionId = $collectionId;
+        $this->collection = $collection;
 
         return $this;
     }
@@ -109,5 +101,8 @@ class ItemCollectionAttribute
         return $this;
     }
 
-
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

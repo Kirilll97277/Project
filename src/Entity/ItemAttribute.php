@@ -13,37 +13,57 @@ class ItemAttribute
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: ItemCollectionAttribute::class, inversedBy: 'itemAttributes')]
+    #[ORM\ManyToOne(targetEntity: CollectionAttribute::class, inversedBy: 'itemAttributes')]
     #[ORM\JoinColumn(nullable: false)]
-    private $itemCollectionAttributeId;
+    private ?CollectionAttribute $collectionAttribute;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    protected $value;
+
+    #[ORM\ManyToOne(targetEntity: Item::class, inversedBy: 'itemAttributes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $item;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getItemId(): ?Item
+    public function getCollectionAttribute(): ?CollectionAttribute
     {
-        return $this->itemId;
+        return $this->collectionAttribute;
     }
 
-    public function setItemId(?Item $itemId): self
+    public function setCollectionAttribute(?CollectionAttribute $collectionAttribute): self
     {
-        $this->itemId = $itemId;
+        $this->collectionAttribute = $collectionAttribute;
 
         return $this;
     }
 
-    public function getItemCollectionAttributeId(): ?ItemCollectionAttribute
+    public function getItem(): ?Item
     {
-        return $this->itemCollectionAttributeId;
+        return $this->item;
     }
 
-    public function setItemCollectionAttributeId(?ItemCollectionAttribute $itemCollectionAttributeId): self
+    public function setItem(?Item $item): self
     {
-        $this->itemCollectionAttributeId = $itemCollectionAttributeId;
+        $this->item = $item;
 
         return $this;
     }
 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function setValue($value): void
+    {
+        if ($value instanceof \DateTimeInterface) {
+            $value = $value->format('d-m-y');
+        }
+
+        $this->value = (string) $value;
+    }
 }

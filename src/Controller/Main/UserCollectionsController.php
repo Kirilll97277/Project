@@ -3,8 +3,8 @@
 namespace App\Controller\Main;
 
 use App\Entity\AttributeType;
-use App\Entity\Collections;
-use App\Entity\ItemCollectionAttribute;
+use App\Entity\Collection;
+use App\Entity\CollectionAttribute;
 use App\Services\FileUploader;
 use App\Form\CollectionsType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +18,7 @@ class UserCollectionsController extends AbstractController
     #[Route('/main/user/collections', name: 'main_user_collections')]
     public function index(): Response
     {
-        $collection = $this->getDoctrine()->getRepository(Collections::class)->findAll();
+        $collection = $this->getDoctrine()->getRepository(Collection::class)->findAll();
 
         return $this->render('main/user_collections/index.html.twig', array(
             'collections' => $collection,
@@ -30,7 +30,7 @@ class UserCollectionsController extends AbstractController
     public function showMyCollections(): Response
     {
         $user = $this->getUser();
-        $collection = $this->getDoctrine()->getRepository(Collections::class)->findBy(['User' => $user]);
+        $collection = $this->getDoctrine()->getRepository(Collection::class)->findBy(['user' => $user]);
 
         return $this->render('main/my_collections/index.html.twig', array(
             'collections' => $collection,
@@ -41,7 +41,7 @@ class UserCollectionsController extends AbstractController
     #[Route('/main/user/collections/create', name: 'main_user_collections_create')]
     public function addCollection(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $collection = new Collections();
+        $collection = new Collection();
 
         $form = $this->createForm(CollectionsType::class, $collection);
         $form->handleRequest($request);

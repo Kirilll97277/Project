@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Collections;
+use App\Entity\Collection;
 use App\Entity\Theme;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -44,8 +44,8 @@ class CollectionsType extends AbstractType
                     'placeholder' => 'Select a theme'
                 ]
             ))
-            ->add('itemCollectionAttributes', CollectionType::class, [
-                'entry_type' => ItemCollectionAttributeType::class,
+            ->add('attributes', CollectionType::class, [
+                'entry_type' => CollectionAttributeType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'by_reference' => false,
@@ -59,7 +59,7 @@ class CollectionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Collections::class,
+            'data_class' => Collection::class,
         ]);
     }
 }

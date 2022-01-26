@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Collections;
+use App\Entity\Collection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Collections|null find($id, $lockMode = null, $lockVersion = null)
- * @method Collections|null findOneBy(array $criteria, array $orderBy = null)
- * @method Collections[]    findAll()
- * @method Collections[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Collection|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Collection|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Collection[]    findAll()
+ * @method Collection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CollectionsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Collections::class);
+        parent::__construct($registry, Collection::class);
     }
 
     // /**

@@ -25,12 +25,12 @@
                 {{ form_widget(collectionForm.description, { 'attr': {'class':'form-control'}}) }}
             </div>
             <div class="col-sm-12">
-                {{ form_label(collectionForm.itemCollectionAttributes) }}
+                {{ form_label(collectionForm.attributes) }}
                 <ul class="tags"
-                    data-index="{{ collectionForm.itemCollectionAttributes|length > 0 ? collectionForm.itemCollectionAttributes|last.vars.name + 1 : 0 }}"
-                    data-prototype="{{ form_widget(collectionForm.itemCollectionAttributes.vars.prototype)|e('html_attr') }}"
+                    data-index="{{ collectionForm.attributes|length > 0 ? collectionForm.attributes|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(collectionForm.attributes.vars.prototype)|e('html_attr') }}"
                 ></ul>
-                {{ form_widget(collectionForm.itemCollectionAttributes) }}
+                {{ form_widget(collectionForm.attributes) }}
             <button type="button" class="add_item_link btn btn-outline-primary mt-2" data-collection-holder-class="tags">Add attribute to item</button>
             </div>
             <div class="col-sm-12">

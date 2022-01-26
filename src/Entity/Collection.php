@@ -4,11 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CollectionsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 #[ORM\Entity(repositoryClass: CollectionsRepository::class)]
-class Collections
+class Collection
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,17 +25,17 @@ class Collections
     private $image;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    private $User;
+    private $user;
 
     #[ORM\ManyToOne(targetEntity: Theme::class)]
-    private $Theme;
+    private $theme;
 
-    #[ORM\OneToMany(mappedBy: 'collectionId', targetEntity: ItemCollectionAttribute::class, orphanRemoval: true, cascade:['persist'])]
-    private $itemCollectionAttributes;
+    #[ORM\OneToMany(mappedBy: 'collection', targetEntity: CollectionAttribute::class, orphanRemoval: true, cascade:['persist'])]
+    protected ?PersistentCollection $attributes;
 
     public function __construct()
     {
-        $this->itemCollectionAttributes = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,52 +81,52 @@ class Collections
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): self
+    public function setUser(?User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getTheme(): ?Theme
     {
-        return $this->Theme;
+        return $this->theme;
     }
 
-    public function setTheme(?Theme $Theme): self
+    public function setTheme(?Theme $theme): self
     {
-        $this->Theme = $Theme;
+        $this->theme = $theme;
 
         return $this;
     }
 
     /**
-     * @return Collection|ItemCollectionAttribute[]
+     * @return PersistentCollection|CollectionAttribute[]
      */
-    public function getItemCollectionAttributes(): Collection
+    public function getAttributes(): ?PersistentCollection
     {
-        return $this->itemCollectionAttributes;
+        return $this->attributes;
     }
 
-    public function addItemCollectionAttribute(ItemCollectionAttribute $itemCollectionAttribute): self
+    public function addAttribute(CollectionAttribute $attribute): self
     {
-        if (!$this->itemCollectionAttributes->contains($itemCollectionAttribute)) {
-            $this->itemCollectionAttributes[] = $itemCollectionAttribute;
-            $itemCollectionAttribute->setCollectionId($this);
+        if (!$this->attributes->contains($attribute)) {
+            $this->attributes[] = $attribute;
+            $attribute->setCollection($this);
         }
 
         return $this;
     }
 
-    public function removeItemCollectionAttribute(ItemCollectionAttribute $itemCollectionAttribute): self
+    public function removeAttribute(CollectionAttribute $itemAttribute): self
     {
-        if ($this->itemCollectionAttributes->removeElement($itemCollectionAttribute)) {
+        if ($this->attributes->removeElement($itemAttribute)) {
             // set the owning side to null (unless already changed)
-            if ($itemCollectionAttribute->getCollectionId() === $this) {
-                $itemCollectionAttribute->setCollectionId(null);
+            if ($itemAttribute->getCollection() === $this) {
+                $itemAttribute->setCollection(null);
             }
         }
 

@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
@@ -27,18 +27,19 @@ class Item
     #[ORM\Column(type: 'datetime')]
     private $createDate;
 
-    #[ORM\ManyToOne(targetEntity: Collections::class)]
+    #[ORM\ManyToOne(targetEntity: Collection::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $collectionId;
+    private $collection;
 
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: ItemAttribute::class, orphanRemoval: true, cascade:['persist'])]
+    private $attributes;
 
     public function __construct()
     {
         $this->likes = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->itemAttributes = new ArrayCollection();
+        $this->attributes = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -56,7 +57,6 @@ class Item
 
         return $this;
     }
-
 
     /**
      * @return ArrayCollection
@@ -119,18 +119,18 @@ class Item
     }
 
     /**
-     * @return Collection|ItemAttribute[]
+     * @return PersistentCollection|ItemAttribute[]
      */
-    public function getItemAttributes(): Collection
+    public function getAttributes(): ?PersistentCollection
     {
-        return $this->itemAttributes;
+        return $this->attributes;
     }
 
     public function addItemAttribute(ItemAttribute $itemAttribute): self
     {
-        if (!$this->itemAttributes->contains($itemAttribute)) {
-            $this->itemAttributes[] = $itemAttribute;
-            $itemAttribute->setItemId($this);
+        if (!$this->attributes->contains($itemAttribute)) {
+            $this->attributes[] = $itemAttribute;
+            $itemAttribute->setItem($this);
         }
 
         return $this;
@@ -138,7 +138,7 @@ class Item
 
     public function removeItemAttribute(ItemAttribute $itemAttribute): self
     {
-        if ($this->itemAttributes->removeElement($itemAttribute)) {
+        if ($this->attributes->removeElement($itemAttribute)) {
             // set the owning side to null (unless already changed)
             if ($itemAttribute->getItemId() === $this) {
                 $itemAttribute->setItemId(null);
@@ -148,14 +148,14 @@ class Item
         return $this;
     }
 
-    public function getCollectionId(): ?Collections
+    public function getCollection(): ?Collection
     {
-        return $this->collectionId;
+        return $this->collection;
     }
 
-    public function setCollectionId(?Collections $collectionId): self
+    public function setCollection(?Collection $collection): self
     {
-        $this->collectionId = $collectionId;
+        $this->collection = $collection;
 
         return $this;
     }
