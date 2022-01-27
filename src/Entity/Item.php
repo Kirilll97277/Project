@@ -121,7 +121,7 @@ class Item
     /**
      * @return PersistentCollection|ItemAttribute[]
      */
-    public function getAttributes(): ?PersistentCollection
+    public function getAttributes()
     {
         return $this->attributes;
     }

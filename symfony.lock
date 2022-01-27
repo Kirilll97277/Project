@@ -1,4 +1,7 @@
 {
+    "cloudinary/cloudinary_php": {
+        "version": "2.6.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.4"
     },
@@ -88,8 +91,26 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "graham-campbell/guzzle-factory": {
+        "version": "v5.0.3"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "7.4.1"
+    },
+    "guzzlehttp/promises": {
+        "version": "1.5.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "2.1.0"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
+    },
+    "league/flysystem": {
+        "version": "3.0.1"
+    },
+    "league/mime-type-detection": {
+        "version": "1.9.0"
     },
     "monolog/monolog": {
         "version": "2.3.5"
@@ -159,11 +180,23 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.1.1"
     },
     "psr/log": {
         "version": "2.0.0"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -224,6 +257,15 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "shrikeh/teapot": {
+        "version": "v2.3.1"
+    },
+    "spatie/dropbox-api": {
+        "version": "1.19.1"
+    },
+    "spatie/flysystem-dropbox": {
+        "version": "2.0.5"
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -591,6 +633,9 @@
     },
     "symfony/yaml": {
         "version": "v5.4.2"
+    },
+    "teapot/status-code": {
+        "version": "v1.1.2"
     },
     "theseer/tokenizer": {
         "version": "1.2.1"

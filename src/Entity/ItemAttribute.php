@@ -61,7 +61,7 @@ class ItemAttribute
     public function setValue($value): void
     {
         if ($value instanceof \DateTimeInterface) {
-            $value = $value->format('d-m-y');
+            $value = $value->format('d-m-Y');
         }
 
         $this->value = (string) $value;

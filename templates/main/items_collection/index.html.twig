@@ -3,30 +3,29 @@
 {% block title %}{{title}}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
     <div class="container">
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-{#            {% if (is_granted('ROLE_ADMIN') ||   ) %}#}
-            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_user_item_create', {'id': id }) }}">Add Item</a>
-{#            {% endif %}#}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('main_user_item_create', {'id': id }) }}">Add Item</a>
+        </div>
+        <div class="row row-cols-3 row-cols-md-3 mb-3 text-center">
             {% for item in items %}
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-3">
                             <h4 class="my-0 fw-normal">{{ item.title }}</h4>
                         </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title"></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li></li>
+                            </ul>
+                            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('item', {'id': item.id}) }}">Look</a>
+                        </div>
                     </div>
-
-                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('item', {'id': item.id}) }}">Look</a>
                 </div>
             {% endfor %}
         </div>
     </div>
-
 </div>
 {% endblock %}

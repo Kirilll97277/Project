@@ -31,7 +31,7 @@ class Collection
     private $theme;
 
     #[ORM\OneToMany(mappedBy: 'collection', targetEntity: CollectionAttribute::class, orphanRemoval: true, cascade:['persist'])]
-    protected ?PersistentCollection $attributes;
+    protected $attributes;
 
     public function __construct()
     {
@@ -106,7 +106,7 @@ class Collection
     /**
      * @return PersistentCollection|CollectionAttribute[]
      */
-    public function getAttributes(): ?PersistentCollection
+    public function getAttributes()
     {
         return $this->attributes;
     }
