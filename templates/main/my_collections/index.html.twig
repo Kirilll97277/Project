@@ -16,7 +16,11 @@
                             <h4 class="my-0 fw-normal">{{ collection.title }}</h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">{{ collection.image }}</h1>
+                            {% if collection.image %}
+                                <div class="col-4 text-center" style="width: 300px;">
+                                        <img src="{{ collection.image }}" class="img-fluid" style="max-height: 200px; max-width: 300px;">
+                                </div>
+                            {% endif %}
                             <ul class="list-unstyled mt-3 mb-4">
                                 <li>{{ collection.description }}</li>
                             </ul>

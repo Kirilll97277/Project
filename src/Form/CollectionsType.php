@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class CollectionsType extends AbstractType
 {
@@ -33,11 +34,23 @@ class CollectionsType extends AbstractType
                     'placeholder'
                 ]
             ))
-            ->add('image', FileType::class, array(
-                'label' => 'Main image',
+            ->add('image', FileType::class, [
+                'label' => 'Image',
                 'required' => false,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please jpeg or png images',
+                    ])
+                ],
                 'mapped' => false,
-            ))
+                'attr' => [
+                    'class' => 'd-none',
+                ]
+            ])
             ->add('description', TextareaType::class, array(
                 'label' => 'Collections description',
                 'attr' => [
