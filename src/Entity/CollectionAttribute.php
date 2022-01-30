@@ -18,9 +18,6 @@ class CollectionAttribute
     #[ORM\JoinColumn(nullable: false)]
     private ?AttributeType $attributeType;
 
-    #[ORM\OneToMany(mappedBy: 'itemCollectionAttribute', targetEntity: ItemAttribute::class, orphanRemoval: true)]
-    private $itemAttributes;
-
     #[ORM\ManyToOne(targetEntity: Collection::class, inversedBy: 'attributes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Collection $collection;
@@ -46,33 +43,6 @@ class CollectionAttribute
     public function setAttributeType(?AttributeType $attributeType): self
     {
         $this->attributeType = $attributeType;
-
-        return $this;
-    }
-
-    public function getItemAttributes(): ?ArrayCollection
-    {
-        return $this->itemAttributes;
-    }
-
-    public function addItemAttribute(ItemAttribute $itemAttribute): self
-    {
-        if (!$this->itemAttributes->contains($itemAttribute)) {
-            $this->itemAttributes[] = $itemAttribute;
-            $itemAttribute->setCollectionAttribute($this);
-        }
-
-        return $this;
-    }
-
-    public function removeItemAttribute(ItemAttribute $itemAttribute): self
-    {
-        if ($this->itemAttributes->removeElement($itemAttribute)) {
-            // set the owning side to null (unless already changed)
-            if ($itemAttribute->getCollectionAttribute() === $this) {
-                $itemAttribute->setCollectionAttribute(null);
-            }
-        }
 
         return $this;
     }

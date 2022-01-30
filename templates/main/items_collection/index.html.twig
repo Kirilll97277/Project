@@ -5,9 +5,15 @@
 {% block body %}
 
     <div class="container">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('main_user_item_create', {'id': id }) }}">Add Item</a>
-        </div>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if app.user.id ==  id  or 'ROLE_ADMIN' in app.user.roles %}
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('main_user_item_create', {'id': id }) }}">Add Item</a>
+                    <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('collection_edit', {'id': id }) }}">Collection create</a>
+                    <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('collection_delete', {'id': id }) }}">Collection delete</a>
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="row row-cols-3 row-cols-md-3 mb-3 text-center">
             {% for item in items %}
                 <div class="col">
