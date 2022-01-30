@@ -22,8 +22,10 @@ class ItemsCollectionController extends AbstractController
     public function index(int $id): Response
     {
         $item = $this->getDoctrine()->getRepository(Item::class)->findBy(['collection' => $id]);
+        $collection = $this->getDoctrine()->getRepository(Collection::class)->findOneBy(['id'=> $id]);
 
         return $this->render('main/items_collection/index.html.twig',  array(
+            'collection' => $collection,
             'items' => $item,
             'title' => 'Items',
             'id' =>$id,
