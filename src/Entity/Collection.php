@@ -33,6 +33,12 @@ class Collection
     #[ORM\OneToMany(mappedBy: 'collection', targetEntity: CollectionAttribute::class, orphanRemoval: true, cascade:['persist'])]
     protected $attributes;
 
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $uploadAd;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $image_id;
+
     public function __construct()
     {
         $this->attributes = new ArrayCollection();
@@ -40,6 +46,10 @@ class Collection
 
     public function getId(): ?int
     {
+        if (empty($this->created_at)) {
+            $date = new \DateTime();
+            $this->created_at = $date;
+        }
         return $this->id;
     }
 
@@ -129,6 +139,30 @@ class Collection
                 $itemAttribute->setCollection(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUploadAd(): ?\DateTimeInterface
+    {
+        return $this->uploadAd;
+    }
+
+    public function setUploadAd(?\DateTimeInterface $uploadAd): self
+    {
+        $this->uploadAd = $uploadAd;
+
+        return $this;
+    }
+
+    public function getImageId(): ?string
+    {
+        return $this->image_id;
+    }
+
+    public function setImageId(?string $image_id): self
+    {
+        $this->image_id = $image_id;
 
         return $this;
     }

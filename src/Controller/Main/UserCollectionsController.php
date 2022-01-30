@@ -49,9 +49,10 @@ class UserCollectionsController extends AbstractController
 
             $file = $form->get('image')->getData();
             if($file){
-                $upload =   $fileUploader->uploadOnDropbox($file);
+                $collection->getUploadAd(new \DateTime());
+                $upload =  $fileUploader->uploadOnDropbox($file);
                 $collection->setImage($upload['link']);
-                //$collection->setIdImage($upload['id']);
+                $collection->setImageId($upload['id']);
             }
 
             $collection->setUser($this->getUser());

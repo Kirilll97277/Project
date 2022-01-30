@@ -28,6 +28,5 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
-            $accessToken: 'sl.BBBWqZv397WtGSIHO9xXiDdMApFritKL4wMKRJOSSSjS9UeXRd7DVnO4SnLMMWo4KPdZc6Qk1pT5eAsqwiMtMnM3cu-zQHQRUNl7I07ObS1PPkEtianOtSiQvDYs2-qpj5XDkJXn3sZ9'
-
+            $accessToken: 'RCBQiSphRiMAAAAAAAAAAXBaKv9wjkU0qLLO5RNNcYx7uYdL5xSMxT91eDgzUkhA'
 
