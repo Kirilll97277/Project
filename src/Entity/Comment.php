@@ -20,11 +20,11 @@ class Comment
     private $createAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    private $User;
+    private $user;
 
     #[ORM\ManyToOne(targetEntity: Item::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $Item;
+    private $item;
 
     public function getId(): ?int
     {
@@ -57,24 +57,24 @@ class Comment
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): self
+    public function setUser(?User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
 
     public function getItem(): ?Item
     {
-        return $this->Item;
+        return $this->item;
     }
 
-    public function setItem(?Item $Item): self
+    public function setItem(?Item $item): self
     {
-        $this->Item = $Item;
+        $this->item = $item;
 
         return $this;
     }

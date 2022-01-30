@@ -3,6 +3,7 @@
 namespace App\Controller\Main;
 
 use App\Entity\Collection;
+use App\Entity\Comment;
 use App\Entity\Item;
 //use phpDocumentor\Reflection\DocBlock\Tags\Method;
 use App\Entity\CollectionAttribute;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ItemsCollectionController extends AbstractController
 {
-    #[Route('/main/collection/{id}', name: 'main_items_collection', requirements: ['id' => '\d+'])]
+    #[Route('/collection/{id}', name: 'main_items_collection', requirements: ['id' => '\d+'])]
     public function index(int $id): Response
     {
         $item = $this->getDoctrine()->getRepository(Item::class)->findBy(['collection' => $id]);
@@ -62,7 +63,7 @@ class ItemsCollectionController extends AbstractController
         return $this->render('main/items_collection/form.html.twig', $forRender);
     }
 
-    #[Route('/item/{id}/edit/', name: 'main_user_item_edit', requirements: ['id' => '\d+'])]
+    #[Route('/item/{id}/edit/', name: 'item_edit', requirements: ['id' => '\d+'])]
     public function editItem(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
         $item = $this->getDoctrine()->getRepository(Item::class)->find(['id' => $id]);
@@ -80,4 +81,21 @@ class ItemsCollectionController extends AbstractController
 
         return $this->render('main/items_collection/form.html.twig', $forRender);
     }
+
+    #[Route('/item/{id}/delete/', name: 'item_delete', requirements: ['id' => '\d+'])]
+    public function deleteItem(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $item = $entityManager->getRepository(Item::class)->findOneBy(['id' => $id]);
+        $col_id = $item->getCollection()->getId();
+        $comments = $entityManager->getRepository(Comment::class)->findBy(['item' => $id]);
+
+        foreach ($comments as $comment) {
+            $entityManager->remove($comment);
+        }
+        $entityManager->remove($item);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('main_items_collection', array('id' => $col_id));
+    }
+
 }

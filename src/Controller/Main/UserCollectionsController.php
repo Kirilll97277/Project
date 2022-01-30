@@ -14,7 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UserCollectionsController extends AbstractController
 {
-    #[Route('/main/user/collections', name: 'main_user_collections')]
+    #[Route('/user/collections', name: 'main_user_collections')]
     public function index(): Response
     {
         $collection = $this->getDoctrine()->getRepository(Collection::class)->findAll();
@@ -25,7 +25,7 @@ class UserCollectionsController extends AbstractController
             ));
     }
 
-    #[Route('/main/user/my/collections', name: 'main_my_collections')]
+    #[Route('/user/my/collections', name: 'main_my_collections')]
     public function showMyCollections(): Response
     {
         $user = $this->getUser();
@@ -37,7 +37,7 @@ class UserCollectionsController extends AbstractController
         ));
     }
 
-    #[Route('/main/user/collections/create', name: 'main_user_collections_create')]
+    #[Route('/user/collections/create', name: 'main_user_collections_create')]
     public function addCollection(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $collection = new Collection();

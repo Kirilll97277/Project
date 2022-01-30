@@ -20,7 +20,7 @@ class ItemController extends AbstractController
     {
         $comment = new Comment();
         $item = $this->getDoctrine()->getRepository(Item::class)->findOneBy(['id'=>$id]);
-        $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(['Item'=>$id]);
+        $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(['item'=>$id]);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
 
