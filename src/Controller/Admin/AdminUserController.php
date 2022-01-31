@@ -20,6 +20,7 @@ class AdminUserController extends AbstractController
 
         return $this->render('admin/user/index.html.twig', array(
             'users' => $users,
+            'title' => 'Users'
         ));
     }
 

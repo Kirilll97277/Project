@@ -44,7 +44,7 @@ class Tags
     }
 
     /**
-     * @return DoctrineCollection|Item[]
+     * @return Collection|Item[]
      */
     public function getItems(): Collection
     {

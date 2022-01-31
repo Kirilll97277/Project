@@ -24,9 +24,9 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item"><a href="{{ path('admin_theme') }}" class="nav-link">Theme</a></li>
                     <li class="nav-item"><a href="{{ path('admin_user') }}" class="nav-link">Users</a></li>
-                    <li class="nav-item"><a href="{{ path('main_my_collections') }}" class="nav-link">My Collections</a></li>
+                    <li class="nav-item"><a href="{{ path('my_collections') }}" class="nav-link">My Collections</a></li>
                 {% elseif is_granted('ROLE_USER') %}
-                    <li class="nav-item"><a href="{{ path('main_my_collections') }}" class="nav-link">My Collections</a></li>
+                    <li class="nav-item"><a href="{{ path('my_collections') }}" class="nav-link">My Collections</a></li>
                 {% endif %}
             </ul>
             <ul class="nav col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">

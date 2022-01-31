@@ -29,7 +29,7 @@ class UserCollectionsController extends AbstractController
             ));
     }
 
-    #[Route('/user/my/collections', name: 'main_my_collections')]
+    #[Route('/my/collections', name: 'my_collections')]
     public function showMyCollections(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -37,7 +37,7 @@ class UserCollectionsController extends AbstractController
 
         return $this->render('main/my_collections/index.html.twig', array(
             'collections' => $collection,
-            'title' => 'Collections',
+            'title' => 'My Collections',
         ));
     }
 

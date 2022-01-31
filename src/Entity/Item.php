@@ -31,7 +31,7 @@ class Item
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: Like::class)]
     private $likes;
 
-    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items', cascade:['persist'])]
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items')]
     private $tags;
 
     public function __construct()
