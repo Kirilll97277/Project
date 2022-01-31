@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TagsController extends AbstractController
 {
-    #[Route('/main/tags', name: 'main_tags')]
+    #[Route('/tags', name: 'tags')]
     public function index(): Response
     {
         $tags = $this->getDoctrine()->getRepository(Tags::class)->findAll();
@@ -23,7 +23,7 @@ class TagsController extends AbstractController
         ));
     }
 
-    #[Route('/main/tags/add', name: 'main_add_tags')]
+    #[Route('/tags/add', name: 'add_tags')]
     public function addTag(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tag = new Tags();

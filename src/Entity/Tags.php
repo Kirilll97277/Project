@@ -18,7 +18,7 @@ class Tags
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'Tags')]
+    #[ORM\ManyToMany(targetEntity: Item::class, mappedBy: 'tags')]
     private $items;
 
     public function __construct()
@@ -46,7 +46,7 @@ class Tags
     /**
      * @return DoctrineCollection|Item[]
      */
-    public function getItems(): DoctrineCollection
+    public function getItems(): Collection
     {
         return $this->items;
     }
@@ -69,5 +69,4 @@ class Tags
 
         return $this;
     }
-
 }

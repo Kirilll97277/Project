@@ -38,8 +38,11 @@
                     {% else %}
                         <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('item_like', {'id': id }) }}">Like</a>
                     {% endif %}
+                    {{ item.countLikes }}
+                {% else %}
+                    Like:{{ item.countLikes }}
                 {% endif %}
-                {{ item.countLikes }}
+
                 <div class="d-flex justify-content-center row">
                     <div class="d-flex flex-column comment-section">
                         <h6>Comments</h6>

@@ -3,8 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Item;
-use App\Entity\Tags;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,16 +22,15 @@ class ItemType extends AbstractType
                 'placeholder' => 'Enter the title'
                 ]
             ))
-            ->add('attributes', CollectionType::class, [
+            ->add('attributes', ArrayCollection::class, [
                 'entry_type' => ItemCollectionAttributeType::class,
                 'label' => false,
             ])
-//            ->add('tags', CollectionType::class, [
-//                'entry_type' => TagItemType::class,
-//                'entry_options' => ['label' => false],
-//                'allow_add' => true,
-//                'by_reference' => false,
-//            ])
+            ->add('tags', CollectionType::class, [
+                'entry_type' => TagsType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+            ])
             ->add('save', SubmitType::class, array(
                 'label' => 'Save'
             ))

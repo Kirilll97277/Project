@@ -18,9 +18,6 @@ class Item
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items', cascade:['persist'])]
-    private $tags;
-
     #[ORM\Column(type: 'datetime')]
     private $createDate;
 
@@ -34,11 +31,14 @@ class Item
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: Like::class)]
     private $likes;
 
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items', cascade:['persist'])]
+    private $tags;
+
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,30 +54,6 @@ class Item
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getTags(): ArrayCollection
-    {
-        return $this->tags;
-    }
-
-    public function addTag(Tags $tag): self
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-        }
-
-        return $this;
-    }
-
-    public function removeTag(Tags $tag): self
-    {
-        $this->tags->removeElement($tag);
 
         return $this;
     }
@@ -187,4 +163,34 @@ class Item
         return $this;
     }
 
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function clearTags(): self
+    {
+        $this->tags->clear();
+
+        return $this;
+    }
 }

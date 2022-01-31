@@ -17,16 +17,21 @@ class ItemLikeController extends AbstractController
         $user = $this->getUser();
         $item = $entityManager->getRepository(Item::class)->findOneBy(['id'=>$id]);
         $like = $entityManager->getRepository(Like::class)->findOneBy(['user' => $user,'item' => $item]);
+
         if (!$like) {
+
             $like = new Like();
             $like->setUser($user);
             $like->setItem($item);
             $like->setIsActive(true);
-        } elseif (!$like->getIsActive()) {
+        }
+        elseif (!$like->getIsActive()) {
             $like->setIsActive(true);
-        } else {
+        }
+        else {
             $like->setIsActive(false);
         }
+
         $entityManager->persist($like);
         $entityManager->flush();
 

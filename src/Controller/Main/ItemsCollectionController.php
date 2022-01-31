@@ -34,7 +34,10 @@ class ItemsCollectionController extends AbstractController
     }
 
     #[Route('collection/{id}/item/create', name: 'main_user_item_create', requirements: ['id' => '\d+'])]
-    public function createItem(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    public function createItem(Request $request,
+                               EntityManagerInterface $entityManager,
+                               int $id
+    ): Response
     {
         $collection = $entityManager->getRepository(Collection::class)->find(['id' => $id]);
 
@@ -44,9 +47,11 @@ class ItemsCollectionController extends AbstractController
 
         $item = new Item();
         $item->setCollection($collection);
+
         foreach ($collection->getAttributes() as $attribute) {
             $item->addItemAttribute((new ItemAttribute())->setItem($item)->setCollectionAttribute($attribute));
         }
+
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 

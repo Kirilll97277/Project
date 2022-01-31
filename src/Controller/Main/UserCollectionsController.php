@@ -19,9 +19,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class UserCollectionsController extends AbstractController
 {
     #[Route('/user/collections', name: 'main_user_collections')]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        $collection = $this->getDoctrine()->getRepository(Collection::class)->findAll();
+        $collection = $entityManager->getRepository(Collection::class)->findAll();
 
         return $this->render('main/user_collections/index.html.twig', array(
             'collections' => $collection,
@@ -30,10 +30,10 @@ class UserCollectionsController extends AbstractController
     }
 
     #[Route('/user/my/collections', name: 'main_my_collections')]
-    public function showMyCollections(): Response
+    public function showMyCollections(EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $collection = $this->getDoctrine()->getRepository(Collection::class)->findBy(['user' => $user]);
+        $collection = $entityManager->getRepository(Collection::class)->findBy(['user' => $user]);
 
         return $this->render('main/my_collections/index.html.twig', array(
             'collections' => $collection,
@@ -42,7 +42,10 @@ class UserCollectionsController extends AbstractController
     }
 
     #[Route('/user/collections/create', name: 'main_user_collections_create')]
-    public function addCollection(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function addCollection(Request $request,
+                                  EntityManagerInterface $entityManager,
+                                  FileUploader $fileUploader
+    ): Response
     {
         $collection = new Collection();
         $form = $this->createForm(CollectionsType::class, $collection);
@@ -68,7 +71,11 @@ class UserCollectionsController extends AbstractController
     }
 
     #[Route('/collection/{id}/edit', name: 'collection_edit', requirements: ['id' => '\d+'])]
-    public function editCollection(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader, int $id): Response
+    public function editCollection(Request $request,
+                                   EntityManagerInterface $entityManager,
+                                   FileUploader $fileUploader,
+                                   int $id
+    ): Response
     {
         $collection = $entityManager->getRepository(Collection::class)->findOneBy(['id' => $id]);
         $form =  $this->createForm(CollectionsType::class, $collection);
@@ -93,21 +100,27 @@ class UserCollectionsController extends AbstractController
     }
 
     #[Route('/collection/{id}/delete', name: 'collection_delete', requirements: ['id' => '\d+'])]
-    public function deleteCollection(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    public function deleteCollection(Request $request,
+                                     EntityManagerInterface $entityManager,
+                                     int $id
+    ): Response
     {
         $collection = $entityManager->getRepository(Collection::class)->findOneBy(['id' => $id]);
         $items = $entityManager->getRepository(Item::class)->findBy(['collection' => $id]);
+
         foreach ($items as $item){
             $comments = $entityManager->getRepository(Comment::class)->findBy(['item' => $item->getId()]);
+
             foreach ($comments as $comment){
                 $entityManager->remove($comment);
             }
             $entityManager->remove($item);
         }
         $colAttributes = $entityManager->getRepository(CollectionAttribute::class)->findBy(['collection'=>$id]);
-        dump($colAttributes);
+
         foreach ($colAttributes as $colAttribute){
             $attributes = $entityManager->getRepository(ItemAttribute::class)->findBy(['collectionAttribute'=>$colAttribute]);
+
             foreach ($attributes as $attribute){
                 $entityManager->remove($attribute);
                 $entityManager->flush();

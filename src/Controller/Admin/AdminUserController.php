@@ -14,9 +14,9 @@ use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 class AdminUserController extends AbstractController
 {
     #[Route('admin/user', name: 'admin_user')]
-    public function index(Request $request): Response
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $users = $entityManager->getRepository(User::class)->findAll();
 
         return $this->render('admin/user/index.html.twig', array(
             'users' => $users,
@@ -115,7 +115,8 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('user/deleteAdmin', name: 'user_delete_admin')]
-    public function deleteRoleAdmin(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    public function deleteRoleAdmin(Request $request,
+                                    EntityManagerInterface $entityManager): JsonResponse
     {
         $ids = json_decode($request->getContent(), true)['ids'];
         $doctrine = $entityManager;
