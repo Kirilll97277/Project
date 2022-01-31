@@ -23,13 +23,19 @@ class ItemType extends AbstractType
                 'placeholder' => 'Enter the title'
                 ]
             ))
-            ->add('save', SubmitType::class, array(
-                'label' => 'Save'
-            ))
             ->add('attributes', CollectionType::class, [
                 'entry_type' => ItemCollectionAttributeType::class,
                 'label' => false,
             ])
+//            ->add('tags', CollectionType::class, [
+//                'entry_type' => TagItemType::class,
+//                'entry_options' => ['label' => false],
+//                'allow_add' => true,
+//                'by_reference' => false,
+//            ])
+            ->add('save', SubmitType::class, array(
+                'label' => 'Save'
+            ))
         ;
     }
 

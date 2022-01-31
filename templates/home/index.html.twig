@@ -1,10 +1,45 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello HomeController!{% endblock %}
-
+{% block title %}{{title}}{% endblock %}
 {% block body %}
-
-<div class="example-wrapper">
-
-</div>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            {% for collection in collections %}
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">{{ collection.title }}</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if collection.image %}
+                                <div class="col-4 text-center" style="width: 300px;">
+                                    <img src="{{ collection.image }}" class="img-fluid" style="max-height: 200px; max-width: 300px;">
+                                </div>
+                            {% endif %}
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>{{ collection.description }}</li>
+                            </ul>
+                            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('main_items_collection', {'id': collection.id}) }}">Look</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for item in items %}
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">{{ item.title }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title"></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>
+                                </li>
+                            </ul>
+                            <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="{{ path('item', {'id': item.id}) }}">Look</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

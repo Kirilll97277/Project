@@ -32,6 +32,14 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% if app.user %}
+                    {% if item.checkLike(app.user) %}
+                        <a type="button" class="btn btn-primary mb-2" href="{{ path('item_like', {'id': id }) }}">Like</a>
+                    {% else %}
+                        <a type="button" class="btn btn-outline-primary mb-2" href="{{ path('item_like', {'id': id }) }}">Like</a>
+                    {% endif %}
+                {% endif %}
+                {{ item.countLikes }}
                 <div class="d-flex justify-content-center row">
                     <div class="d-flex flex-column comment-section">
                         <h6>Comments</h6>

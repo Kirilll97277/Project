@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
     {{ form_start(itemForm) }}
-
         <div class="form-login">
             <div class="col-12">
                 <h1>
@@ -11,23 +9,28 @@
                 <div class="form-group">
                     <div class="col-sm-12 mb-2">
                         {{ form_label(itemForm.title) }}
-                        {{ form_widget(itemForm.title) }}
+                        {{ form_widget(itemForm.title, {'attr': {'class': 'form-control'} }) }}
                     </div>
                     {% for attribute in itemForm.attributes %}
                     <div class="col-12 mb-2">
                         {{ form_row(attribute) }}
                     </div>
                     {% endfor %}
-                    <button type="button" class="add_item_link btn btn-outline-primary mt-2" data-collection-holder-class="tags">Add tags</button>
+{#                    <div class="col-sm-12">#}
+{#                        <ul class="tags"#}
+{#                            data-index="{{ itemForm.tags|length > 0 ? itemForm.tags|last.vars.name + 1 : 0 }}"#}
+{#                            data-prototype="{{ form_widget(itemForm.tags.vars.prototype)|e('html_attr') }}"#}
+{#                        ></ul>#}
+{#                        {{ form_widget(itemForm.tags) }}#}
+{#                        <button type="button" class="add_item_link btn btn-outline-primary mt-2" data-collection-holder-class="tags">Add tag</button>#}
+{#                    </div>#}
                     <div class="col-sm-12">
                     {{ form_widget(itemForm.save, { 'attr': {'class':'btn btn-outline-primary mt-2'} }) }}
                     </div>
                 </div>
             </div>
         </div>
-
     {{ form_end(itemForm) }}
-
     <script>
         const addFormToCollection = (e) => {
             const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
@@ -53,5 +56,4 @@
             });
 
     </script>
-
 {% endblock %}

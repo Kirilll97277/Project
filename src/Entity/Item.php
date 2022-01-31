@@ -18,9 +18,6 @@ class Item
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    #[ORM\ManyToMany(targetEntity: User::class)]
-    private $likes;
-
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'items', cascade:['persist'])]
     private $tags;
 
@@ -34,11 +31,14 @@ class Item
     #[ORM\OneToMany(mappedBy: 'item', targetEntity: ItemAttribute::class, orphanRemoval: true, cascade:['persist'])]
     private $attributes;
 
+    #[ORM\OneToMany(mappedBy: 'item', targetEntity: Like::class)]
+    private $likes;
+
     public function __construct()
     {
-        $this->likes = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->attributes = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,30 +54,6 @@ class Item
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getLikes(): ArrayCollection
-    {
-        return $this->likes;
-    }
-
-    public function addItemLike(User $itemLike): self
-    {
-        if (!$this->likes->contains($itemLike)) {
-            $this->likes[] = $itemLike;
-        }
-
-        return $this;
-    }
-
-    public function removeItemLike(User $itemLike): self
-    {
-        $this->likes->removeElement($itemLike);
 
         return $this;
     }
@@ -156,6 +132,57 @@ class Item
     public function setCollection(?Collection $collection): self
     {
         $this->collection = $collection;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function getCountLikes(): string
+    {
+        $count = 0;
+        if ($this->likes) {
+            foreach ($this->likes as $like) {
+                if($like->getIsActive()) $count++;
+            }
+        }
+        return $count;
+    }
+
+    public function checkLike(?User $user): bool
+    {
+        if ($this->likes) {
+            foreach ($this->likes as $like) {
+                if($like->checkUser($user)) return true;
+            }
+        }
+        return false;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getItem() === $this) {
+                $like->setItem(null);
+            }
+        }
 
         return $this;
     }

@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Collection;
+use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,19 +24,19 @@ class CollectionsRepository extends ServiceEntityRepository
     // /**
     //  * @return Collections[] Returns an array of Collections objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByNumberItems()
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin(Item::class, 'i', Join::WITH, 'i.collection = c')
+            ->groupBy('c.id')
+            ->orderBy('count(i)', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Collections

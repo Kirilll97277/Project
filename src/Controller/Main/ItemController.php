@@ -19,8 +19,10 @@ class ItemController extends AbstractController
     public function index(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $comment = new Comment();
-        $item = $this->getDoctrine()->getRepository(Item::class)->findOneBy(['id'=>$id]);
-        $comments = $this->getDoctrine()->getRepository(Comment::class)->findBy(['item'=>$id]);
+        $item = $entityManager->getRepository(Item::class)->findOneBy(['id'=>$id]);
+        $comments = $entityManager->getRepository(Comment::class)->findBy(['item'=>$id]);
+        $user = $this->getUser();
+        $like = $entityManager->getRepository(Like::class)->findOneBy(['user' => $user,'item' => $item]);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
 
@@ -28,7 +30,7 @@ class ItemController extends AbstractController
 
             $comment->setItem($item);
             $comment->setCreateAt(new \DateTime());
-            $comment->setUser($this->getUser());
+            $comment->setUser($user);
             $entityManager->persist($comment);
             $entityManager->flush();
 
@@ -36,6 +38,7 @@ class ItemController extends AbstractController
         }
 
         $forRender['itemForm'] = $form->createView();
+        $forRender['like'] = $like;
         $forRender['item'] = $item;
         $forRender['comments'] = $comments;
         $forRender['id'] = $id;
